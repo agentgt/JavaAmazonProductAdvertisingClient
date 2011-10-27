@@ -1,0 +1,60 @@
+<project name="AmazonProductAdvertisingClient" default="run" basedir=".">
+
+	<property name="src" location="src" />
+	<property name="classes" location="classes" />
+	<property name="commons.codec.jar" location="lib/commons-codec.jar" />
+
+	<target name="init">
+		<mkdir dir="${classes}" />
+	</target>
+
+	<target name="lib">
+		<mkdir dir="lib" />
+		<get src="http://repo2.maven.org/maven2/commons-io/commons-io/2.0.1/commons-io-2.0.1.jar" dest="lib/commons-io.jar" />
+		<get src="http://repo2.maven.org/maven2/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" dest="lib/commons-logging.jar" />
+		<get src="http://repo2.maven.org/maven2/log4j/log4j/1.2.9/log4j-1.2.9.jar" dest="lib/log4j.jar" />
+		<get src="http://repo2.maven.org/maven2/commons-httpclient/commons-httpclient/3.1/commons-httpclient-3.1.jar" dest="lib/commons-httpclient.jar" />
+		<get src="http://repo2.maven.org/maven2/commons-codec/commons-codec/1.5/commons-codec-1.5.jar" dest="lib/commons-codec.jar" />
+		<get src="http://repo2.maven.org/maven2/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar" dest="lib/dom4j.jar" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${classes}" />
+	</target>
+
+	<target name="compile" depends="init" description="compile the source ">
+		<javac srcdir="${src}" destdir="${classes}">
+			<classpath>
+				<pathelement location="${commons.codec.jar}" />
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="build" depends="lib,generate,compile" description="generates, compiles, and creates jar">
+		<jar destfile="build/amazon-product-advertising-client.jar">
+			<fileset dir="${classes}">
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="generate" description="generate the WSDL source">
+		<exec executable="wsimport">
+			<arg line="wsimport -d ./build -s ./src -p com.ECS.client.jax http://ecs.amazonaws.com/AWSECommerceService/AWSECommerceService.wsdl ."/>
+		</exec>
+	</target>
+		
+	<target name="run" depends="compile" description="run the sample ">
+		<available file="my.properties" property="my" />
+		<fail unless="my" message="Copy sample.properties --> my.properties"/>
+		<java classname="com.amazon.advertising.api.sample.ItemLookupSample" fork="true">
+			<arg line="my.properties"/>
+			<classpath>
+				<fileset dir="lib">
+					<include name="*.jar" />
+				</fileset>
+				<pathelement location="${classes}" />
+			</classpath>
+		</java>
+	</target>
+
+</project>

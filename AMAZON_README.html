@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<title>Amazon Product Advertising API - Signed Requests Sample Code - Java</title>
+<style type="text/css">
+body,div,p,td,th {
+	font-family: helvetica, sans-serif, arial;
+	font-size: 12px;
+	color: #000000;
+}
+
+.aws-h1,h1 {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	color: #000000;
+}
+
+.aws-h2,h2 {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 14px;
+	color: #c60;
+}
+
+.aws-h3,h3 {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #333333;
+}
+
+/*table ID selector styles*/
+#aws-table {
+	border-top: 1px solid #cccccc;
+	border-left: 1px solid #cccccc;
+	width: 95%;
+}
+
+#aws-table td {
+	font-size: 12px;
+	padding: 5px 5px 5px 5px;
+	border-bottom: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
+	vertical-align: top;
+}
+
+#aws-table th {
+	font-size: 12px;
+	padding: 5px 5px 5px 5px;
+	border-bottom: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
+	vertical-align: top;
+	background-color: #eeeeee;
+	color: #333333;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: left;
+}
+
+/*code, note, and example styles*/
+pre {
+	font-size: 12px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	color: #000066;
+	padding: 12px;
+	background-color: #eff7ff;
+	border: 1px dashed #333;
+	width: 75%;
+	display: block;
+}
+</style>
+</head>
+<body>
+<h2>About this Sample</h2>
+<ul>
+	<li>Based on the 2009-03-31 API version.</li>
+	<li>This sample shows how to send an authenticated REST/Query request to the Amazon Product Advertising API using Java</li>
+</ul>
+
+<h2>Prerequisites</h2>
+<ul>
+	<li>
+	    <b>Amazon Product Advertising API Account</b> (<a href="http://associates.amazon.com/gp/advertising/api/detail/main.html">http://associates.amazon.com/gp/advertising/api/detail/main.html/</a>).
+	</li>
+	<li>Java version 1.5 or later</li>
+	<li>Apache Ant version 1.7 or later</li>
+	<li>The following java libraries:
+	    <ol>
+		<li>Apache Commons Codec 1.3 <a href="http://commons.apache.org/codec/">http://commons.apache.org/codec/</a> (included with this sample)</li>
+	    </ol>
+	</li>
+</ul>
+
+<h2>Reference Documentation</h2>
+<ul>
+	<li><a href="http://associates.amazon.com/gp/advertising/api/detail/main.html/">Online Reference Documentation</a></li>
+</ul>
+
+<h2>Quick Start</h2>
+Sample comes with a <tt>SignedRequestsHelper</tt> class with the signature logic and a <tt>ItemLookupSample</tt> class that uses the SignedRequestsHelper to perform a simple ItemLookup operation. To get started with the sample, follow these steps:
+<ol>
+	<li>Log in to the Amazon Web Services portal at <a href="http://aws.amazon.com/">http://aws.amazon.com/</a> and copy your AWS Access Key ID and your AWS Secret Key.
+	    You can find them under the Your Account -&gt; Access Identifiers menu after you log in.</li>
+	<li>Extract the zip file into a working directory.</li>
+	<li>Open <tt>com/amazon/advertising/api/sample/ItemLookupSample.java</tt> in an editor and change the <tt>AWS_ACCESS_KEY_ID</tt> and <tt>AWS_SECRET_KEY</tt> values to match the ones you obtained from AWS.
+	<li>
+	    Run the sample:
+	    <pre>ant run</pre>
+	</li>
+</ol>
+
+
+<h2>Comments, Questions or Feedback</h2>
+If you have any comments, questions or feedback on the library, please visit the
+<a href="http://developer.amazonwebservices.com/connect/forum.jspa?forumID=9">Amazon
+Amazon Product Advertising API discussion forums</a>.
+</body>
+</html>
