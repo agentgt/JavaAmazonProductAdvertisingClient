@@ -100,13 +100,19 @@ public class ItemLookupSample {
 //        String queryString = "Service=AWSECommerceService&Version=2009-03-31&Operation=ItemLookup&ResponseGroup=Small&ItemId="
 //                + ITEM_ID;
         
-        String queryString = "SearchIndex=Grocery&MerchantId=All&Operation=ItemSearch&ResponseGroup=Small" +
-        		"&Keywords=bags" +
-        		"&BrowseNode=" +  "16318401";
-        //System.out.println(client.get(queryString).getPrettyXml());
+        params.clear();
+    	params = new HashMap<String, String>();
+    	{
+    		params.put("MerchantId", "All");
+    		params.put("SearchIndex", "Grocery");
+    		params.put("ResponseGroup", "Large");
+    		params.put("BrowseNode", "16318401");
+    		params.put("Operation", "Search");
+    	}
+        System.out.println(client.get(params).getPrettyXml());
         
-        ItemSearchResponse r = client.itemSearch.execute(queryString);
-        System.out.println(r.getItems().get(0).getTotalResults());
+        ItemSearchResponse r = client.itemSearch.execute(params);
+        //System.out.println(r.getItems().get(0).getTotalResults());
 //        //ItemAttributes ia = r.getItems().get(0).getItem().get(0).getItemAttributes();
 //        ItemAttributes ia = r.getItems().get(0).getItem().get(0).getItemAttributes();
 //        int size = r.getItems().get(0).getItem().size();

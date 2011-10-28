@@ -1,7 +1,7 @@
-<project name="AmazonProductAdvertisingClient" default="run" basedir=".">
+<project name="AmazonProductAdvertisingClient" default="build" basedir=".">
 
 	<property name="src" location="src" />
-	<property name="classes" location="classes" />
+	<property name="classes" location="build/classes" />
 	<property name="commons.codec.jar" location="lib/commons-codec.jar" />
 
 	<target name="init">
@@ -20,12 +20,17 @@
 
 	<target name="clean">
 		<delete dir="${classes}" />
+		<delete dir="build" />
 	</target>
 
 	<target name="compile" depends="init" description="compile the source ">
 		<javac srcdir="${src}" destdir="${classes}">
 			<classpath>
 				<pathelement location="${commons.codec.jar}" />
+				<pathelement location="${classes}" />
+				<fileset dir="lib">
+					<include name="*.jar" />
+				</fileset>
 			</classpath>
 		</javac>
 	</target>
@@ -38,15 +43,16 @@
 	</target>
 
 	<target name="generate" description="generate the WSDL source">
+		<mkdir dir="${classes}"/>
 		<exec executable="wsimport">
-			<arg line="wsimport -d ./build -s ./src -p com.ECS.client.jax http://ecs.amazonaws.com/AWSECommerceService/AWSECommerceService.wsdl ."/>
+			<arg line="-d ./build/classes -s ./src -p com.ECS.client.jax http://ecs.amazonaws.com/AWSECommerceService/AWSECommerceService.wsdl ."/>
 		</exec>
 	</target>
 		
 	<target name="run" depends="compile" description="run the sample ">
 		<available file="my.properties" property="my" />
 		<fail unless="my" message="Copy sample.properties --> my.properties"/>
-		<java classname="com.amazon.advertising.api.sample.ItemLookupSample" fork="true">
+		<java classname="com.evocatus.amazonclient.ItemLookupSample" fork="true">
 			<arg line="my.properties"/>
 			<classpath>
 				<fileset dir="lib">
