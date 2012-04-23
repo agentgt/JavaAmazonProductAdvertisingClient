@@ -22,6 +22,16 @@ import com.ECS.client.jax.ItemSearchResponse;
 
 public class AmazonClient {
 	
+
+	private static final String PARAM_ASSOCIATE_TAG = "AssociateTag";
+	private static final String PARAM_VERSION = "Version";
+	private static final String PARAM_SERVICE = "Service";
+	
+	public static final String OPERATION_ITEM_SEARCH = "ItemSearch";
+	public static final String OPERATION_ITEM_LOOKUP = "ItemLookup";
+	
+	private static final String SERVICE = "AWSECommerceService";
+	public static final String VERSION = "2011-08-01";
 	private HttpClient client = new HttpClient();
 	{
 		HttpConnectionParams params = client.getHttpConnectionManager().getParams();
@@ -29,10 +39,13 @@ public class AmazonClient {
 		params.setSoTimeout(5000);
 		
 	}
-	private String serviceString = "Service=AWSECommerceService&Version=2011-04-01&";
+	private String serviceString = PARAM_SERVICE+"="+SERVICE+"&"+PARAM_VERSION+"="+VERSION+"&";
 	private AmazonClient self = this;
 	
 	public abstract class Op<T> {
+		public static final String PARAM_OPERATION = "Operation";
+
+		
 		public String op;
 		public Class<T> responseType;
 		
@@ -43,25 +56,26 @@ public class AmazonClient {
 		}
 
 		public T execute(Map<String, String> query) {
-			query.put("Operation", op);
+			query.put(PARAM_OPERATION, op);
 			return self.getObject(query, responseType);
 		}
 		
 		public T execute(String query) {
-			return self.getObject("Operation=" + op + "&" + query, responseType);
+			return self.getObject(PARAM_OPERATION+"=" + op + "&" + query, responseType);
 		}
 	}
 	
-	public Op<ItemLookupResponse> itemLookup = op("ItemLookup", ItemLookupResponse.class);
+	public Op<ItemLookupResponse> itemLookup = op(OPERATION_ITEM_LOOKUP, ItemLookupResponse.class);
 	
-	public Op<ItemSearchResponse> itemSearch = op("ItemSearch", ItemSearchResponse.class);
+	public Op<ItemSearchResponse> itemSearch = op(OPERATION_ITEM_SEARCH, ItemSearchResponse.class);
 	
 	private <T> Op<T> op(String op, Class<T> c) {
 		return new Op<T>(op, c) {};
 	}
 	
 
-    private SignedRequestsHelper helper;    	
+    private SignedRequestsHelper helper;
+	private String associateTag;    	
     /*
      * Use one of the following end-points, according to the region you are
      * interested in:
@@ -76,7 +90,7 @@ public class AmazonClient {
      */
     public static String ENDPOINT = "ecs.amazonaws.com";
     
-    public AmazonClient(String accessKeyId, String secretKey) {
+    public AmazonClient(String accessKeyId, String secretKey, String associateTag) {
         /*
          * Set up the signed requests helper 
          */
@@ -85,6 +99,7 @@ public class AmazonClient {
         } catch (Exception e) {
         	throw new RuntimeException(e);
         }
+        this.associateTag = associateTag;
 	}
 
     public AmazonResponse get(String query) {
@@ -162,13 +177,14 @@ public class AmazonClient {
 	}
     
     private InputStream getResourceSigned(String query) {
-    	String u = helper.sign(serviceString + query);
+    	String u = helper.sign(serviceString + PARAM_ASSOCIATE_TAG + "=" + this.associateTag + "&"+ query);
     	return getResource(u);
     }
     
     private InputStream getResourceSigned(Map<String, String> params) {
-    	params.put("Service", "AWSECommerceService");
-    	params.put("Version", "2011-04-01");
+    	params.put(PARAM_SERVICE, SERVICE);
+    	params.put(PARAM_VERSION, VERSION);
+    	params.put(PARAM_ASSOCIATE_TAG, this.associateTag);
     	String u = helper.sign(params);
     	return getResource(u);
     }        
