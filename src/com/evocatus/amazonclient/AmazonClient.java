@@ -19,6 +19,7 @@ import org.dom4j.io.XMLWriter;
 
 import com.ECS.client.jax.ItemLookupResponse;
 import com.ECS.client.jax.ItemSearchResponse;
+import com.ECS.client.jax.SimilarityLookupResponse;
 
 public class AmazonClient {
 	
@@ -32,6 +33,7 @@ public class AmazonClient {
 	
 	private static final String SERVICE = "AWSECommerceService";
 	public static final String VERSION = "2011-08-01";
+	public static final String OPERATION_SIMILARITY_LOOKUP = "SimilarityLookup";
 	private HttpClient client = new HttpClient();
 	{
 		HttpConnectionParams params = client.getHttpConnectionManager().getParams();
@@ -65,9 +67,12 @@ public class AmazonClient {
 		}
 	}
 	
-	public Op<ItemLookupResponse> itemLookup = op(OPERATION_ITEM_LOOKUP, ItemLookupResponse.class);
+	private Op<ItemLookupResponse> itemLookup = op(OPERATION_ITEM_LOOKUP, ItemLookupResponse.class);
 	
-	public Op<ItemSearchResponse> itemSearch = op(OPERATION_ITEM_SEARCH, ItemSearchResponse.class);
+	private Op<ItemSearchResponse> itemSearch = op(OPERATION_ITEM_SEARCH, ItemSearchResponse.class);
+	
+	private Op<SimilarityLookupResponse> itemSimilarity = op(OPERATION_ITEM_SEARCH, SimilarityLookupResponse.class);
+	
 	
 	private <T> Op<T> op(String op, Class<T> c) {
 		return new Op<T>(op, c) {};
@@ -201,6 +206,18 @@ public class AmazonClient {
 	}    
 
 	
+	public Op<ItemLookupResponse> lookup() {
+		return itemLookup;
+	}
+
+	public Op<ItemSearchResponse> search() {
+		return itemSearch;
+	}
+
+	public Op<SimilarityLookupResponse> similarity() {
+		return itemSimilarity;
+	}
+
 	public static class AmazonResponse {
 		private String responseBody;
 			

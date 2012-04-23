@@ -86,6 +86,7 @@ public class ItemLookupSample {
         
         /* The helper can sign requests in two forms - map form and string form */
         AmazonClient client = new AmazonClient(accessKeyId, secretKey, associateTag);
+ 
         /*
          * Here is an example in map form, where the request parameters are stored in a map.
          */
@@ -134,10 +135,21 @@ public class ItemLookupSample {
     		params.put("ResponseGroup", "Large");
     		params.put("BrowseNode", "16318401");
   
-    		ItemSearchResponse r = client.itemSearch.execute(params);
+    		ItemSearchResponse r = client.search().execute(params);
 	        System.out.println("Total results: " + r.getItems().get(0).getTotalResults());
 	        ItemAttributes ia = r.getItems().get(0).getItem().get(0).getItemAttributes();
 	        System.out.println("EAN of first item: " + ia.getEAN());
+	        System.out.println("------------------");
+        }
+        
+        {
+        	System.out.println("Map form example (similarity, predefined OP):");
+        	
+	        final Map<String, String> params = new HashMap<String, String>(2);
+	        params.put("ItemId", "B0014WYXYW");
+	        params.put("ResponseGroup", "Large");
+	        
+	        System.out.println(client.similarity().execute(params).getItems().size());
 	        System.out.println("------------------");
         }
     }
