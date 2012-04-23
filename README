@@ -7,6 +7,8 @@ http://docs.amazonwebservices.com/AWSECommerceService/latest/DG/
 So here is a pretty much abandoned REST client (I moved on to other projects) that uses the generated JAXB objects 
 from the WSDL and Commons HTTP Client.
 
+Copy sample.properties to a file called my.properties and add your AWS credentials and your associate tag
+
 To Build:
 
 	ant build
@@ -14,8 +16,3 @@ To Build:
 To run the sample:
 
 	ant run
-	
-Right now this client is generated with the old WSDL, see: https://forums.aws.amazon.com/ann.jspa?annID=1104
-It also appears that search no longer works.
-
-Maybe someone might breath some life into this.
